@@ -7,9 +7,12 @@ kubeconfig_script_help()
     echo "Usage:"
     echo "      $0 kubeconfig1 kubeconfig2 ..."
     echo
-    echo "Shorten AWS kubeconfig context names"
-    echo "Usage:"
-    echo "      $0 -r"
+    echo "Additional options: "
+    echo "      $0 [OPTIONS...]"
+    echo "Options:"
+    echo "h     Print Help."
+    echo "r     Shorten all AWS kubeconfig context names"
+    echo "g     Generate kubeconfig for the current context."
     echo
 }
 
@@ -46,6 +49,11 @@ rename_contexts(){
     kubectl config current-context
 }
 
+gen_kubeconfig()
+{
+    kubectl config view --minify --raw
+}
+
 if [ "$#" -eq 0 ]; then
     kubeconfig_script_help
 fi
@@ -53,12 +61,18 @@ fi
 while [ "$#" -gt 0 ]; do
     case "$1" in
         -h | --help)
-            # display Help
+            # Display Help
             kubeconfig_script_help
             exit 0
             ;;
         -r | --rename)
+            # Shorten all AWS kubeconfig context names
             rename_contexts
+            exit 0
+            ;;
+        -g | --generate)
+            # Show kubeconfig for the current context
+            gen_kubeconfig
             exit 0
             ;;
         --)
