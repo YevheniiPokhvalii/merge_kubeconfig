@@ -23,12 +23,12 @@ merge_kubeconfig(){
     config_backup="$HOME/.kube/config_$(date +"%Y%m%d_%H%M").bak"
 
     if [ -f "$config_path" ]; then
-        mv "$config_path" "$config_backup"
+        cp "$config_path" "$config_backup"
         echo "Creating backup of kubeconfig to $(ls "$config_backup")"
     fi
 
-    export KUBECONFIG="$config_path":"$*"
-    printf '%s\n' "Using KUBECONFIG PATH $KUBECONFIG"
+    export KUBECONFIG="$*"
+    printf '%s\n' "Using PATH KUBECONFIG=$KUBECONFIG"
     kubectl config view --flatten > "$temp_config"
     mv "$temp_config" "$config_path"
     chmod 600 "$config_path"
