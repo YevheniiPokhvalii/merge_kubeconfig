@@ -1,7 +1,6 @@
 #!/bin/sh
 
-kubeconfig_script_help()
-{
+kubeconfig_script_help(){
     # Display Help
     echo "Merge kubeconfigs into one file"
     echo "Usage:"
