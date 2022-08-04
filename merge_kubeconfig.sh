@@ -21,12 +21,18 @@ merge_kubeconfig() {
     # ctrl-C trap for Bash
     trap 'rm -f -- "$temp_config"' EXIT
 
+    config_dir="$HOME/.kube/"
     config_path="$HOME/.kube/config"
     config_backup="$HOME/.kube/config_$(date +"%Y%m%d_%H%M").bak"
 
     if [ -f "$config_path" ]; then
         cp "$config_path" "$config_backup"
         echo "Creating kubeconfig backup to $config_backup"
+    fi
+
+    if [ ! -d "$config_dir" ]; then
+        mkdir "$config_dir"
+        echo "Creating kubeconfig directory $config_dir"
     fi
 
     export KUBECONFIG="$*"
