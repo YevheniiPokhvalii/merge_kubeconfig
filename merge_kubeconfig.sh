@@ -46,8 +46,7 @@ rename_contexts(){
     echo "Current context: $(kubectl config current-context)"
 }
 
-gen_kubeconfig()
-{
+gen_kubeconfig(){
     kubectl config view --minify --raw
 }
 
