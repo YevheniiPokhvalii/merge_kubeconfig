@@ -1,6 +1,6 @@
 #!/bin/sh
 
-kubeconfig_script_help(){
+kubeconfig_script_help() {
     # Display Help
     echo "Merge kubeconfigs into one file"
     echo "Usage:"
@@ -15,7 +15,7 @@ kubeconfig_script_help(){
     echo
 }
 
-merge_kubeconfig(){
+merge_kubeconfig() {
     temp_config=$(mktemp)
 
     # ctrl-C trap for Bash
@@ -36,9 +36,8 @@ merge_kubeconfig(){
     chmod 600 "$config_path"
 }
 
-rename_contexts(){
-    kubectl config get-contexts --output=name | while read -r cluster_name
-    do
+rename_contexts() {
+    kubectl config get-contexts --output=name | while read -r cluster_name; do
         cluster_name_short="$(printf '%s' "$cluster_name" | cut -d "/" -f 2-)"
         kubectl config rename-context "$cluster_name" "$cluster_name_short"
     done
@@ -46,7 +45,7 @@ rename_contexts(){
     echo "Current context: $(kubectl config current-context)"
 }
 
-gen_kubeconfig(){
+gen_kubeconfig() {
     kubectl config view --minify --raw
 }
 
