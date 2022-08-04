@@ -11,7 +11,7 @@ kubeconfig_script_help()
     echo "      $0 [OPTIONS...]"
     echo "Options:"
     echo "h     Print Help."
-    echo "r     Shorten all AWS kubeconfig context names"
+    echo "r     Shorten all AWS kubeconfig context names."
     echo "g     Generate kubeconfig for the current context."
     echo
 }
@@ -27,7 +27,7 @@ merge_kubeconfig(){
 
     if [ -f "$config_path" ]; then
         cp "$config_path" "$config_backup"
-        echo "Creating backup of kubeconfig to $(ls "$config_backup")"
+        echo "Creating kubeconfig backup to $config_backup"
     fi
 
     export KUBECONFIG="$*"
@@ -40,13 +40,11 @@ merge_kubeconfig(){
 rename_contexts(){
     kubectl config get-contexts --output=name | while read -r cluster_name
     do
-        echo "Cluster name is $cluster_name"
         cluster_name_short="$(printf '%s' "$cluster_name" | cut -d "/" -f 2-)"
         kubectl config rename-context "$cluster_name" "$cluster_name_short"
     done
 
-    echo "Current context: "
-    kubectl config current-context
+    echo "Current context: $(kubectl config current-context)"
 }
 
 gen_kubeconfig()
